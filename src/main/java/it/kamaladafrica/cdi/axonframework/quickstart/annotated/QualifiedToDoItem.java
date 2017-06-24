@@ -6,7 +6,7 @@ import org.axonframework.commandhandling.model.AggregateLifecycle;
 import org.axonframework.commandhandling.model.AggregateRoot;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 
-import it.kamaladafrica.cdi.axonframework.quickstart.QualifiedConfiguration;
+import it.kamaladafrica.cdi.axonframework.quickstart.QualifiedAggregateConfiguration;
 import it.kamaladafrica.cdi.axonframework.quickstart.api.CreateToDoItemCommand;
 import it.kamaladafrica.cdi.axonframework.quickstart.api.ToDoItemCompletedEvent;
 import it.kamaladafrica.cdi.axonframework.quickstart.api.ToDoItemCreatedEvent;
@@ -14,7 +14,7 @@ import it.kamaladafrica.cdi.axonframework.quickstart.api.ToDoItemCreatedEvent;
 /**
  * @author Jettro Coenradie
  */
-@QualifiedConfiguration
+@QualifiedAggregateConfiguration
 @AggregateRoot
 public class QualifiedToDoItem {
 

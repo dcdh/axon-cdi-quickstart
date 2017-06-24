@@ -16,57 +16,52 @@ import org.axonframework.eventsourcing.eventstore.EmbeddedEventStore;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.eventsourcing.eventstore.inmemory.InMemoryEventStorageEngine;
 
-import it.kamaladafrica.cdi.axonframework.AutoConfigure;
-import it.kamaladafrica.cdi.axonframework.extension.impl.RegistrableAggregateSnaphotter;
-
 @ApplicationScoped
 public class AxonQualifiedConfiguration {
 
 	@Produces
-	@AutoConfigure
 	@ApplicationScoped
 	@Qualified
 	public EventStore eventStore() {
-		return new EmbeddedEventStore(new InMemoryEventStorageEngine());
+		return new EventStoreLogger(
+				new EmbeddedEventStore(
+					new InMemoryEventStorageEngine()));
 	}
 
 	@Produces
-	@AutoConfigure
 	@ApplicationScoped
 	@Qualified
 	public SagaStore<Object> sagaRepository() {
-		return new InMemorySagaStore();
+		return new SagaStoreLogger<>(
+				new InMemorySagaStore());
 	}
 
 	@Produces
-	@AutoConfigure
 	@ApplicationScoped
 	@Qualified
 	public CommandBus commandBus() {
-		return new SimpleCommandBus();
+		return new CommandBusLogger(
+				new SimpleCommandBus());
 	}
 
+	// Not mandatory: Bean will we created if necessary
+	// cf. CommandGatewayBeanCreation
 	@Produces
 	@ApplicationScoped
 	@Qualified
-	public CommandGateway commandGateway(@Qualified CommandBus commandBus) {
-		return new DefaultCommandGateway(commandBus);
+	public CommandGateway commandGateway(@Qualified final CommandBus commandBus) {
+		return new CommandGatewayLogger(
+				new DefaultCommandGateway(commandBus));
 	}
 
 	// Snapshots
-	@Produces
-	@AutoConfigure
-	@ApplicationScoped
-	@Qualified
-	public Snapshotter snapshotter(@Qualified EventStore eventStore) {
-		return new RegistrableAggregateSnaphotter(eventStore);
-	}
-
+	// The Snapshotter is dynamically created in axon-cdi
 	@Produces
 	@ApplicationScoped
 	@Qualified
-	public SnapshotTriggerDefinition snapshotterTrigger(Snapshotter snapshotter) {
-		return new EventCountSnapshotTriggerDefinition(snapshotter, 10);
+	public SnapshotTriggerDefinition snapshotterTrigger(@Qualified final Snapshotter snapshotter) {
+		return new SnapshotTriggerDefinitionLogger(
+				new EventCountSnapshotTriggerDefinition(snapshotter, 10));
 	}
 
 }

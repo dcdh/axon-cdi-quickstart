@@ -8,15 +8,13 @@ import java.lang.annotation.Target;
 
 import javax.enterprise.inject.Stereotype;
 
-import it.kamaladafrica.cdi.axonframework.AggregateConfiguration;
-import it.kamaladafrica.cdi.axonframework.DefaultQualifierMeme;
-
+import it.kamaladafrica.cdi.axonframework.SagaConfiguration;
 
 @Stereotype
-@AggregateConfiguration(value = QualifiedConfiguration.QualifiedQualifierMeme.class, snapshotterTriggerDefinition = DefaultQualifierMeme.class)
+@SagaConfiguration(value = QualifiedSagaConfiguration.QualifiedQualifierMeme.class)
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface QualifiedConfiguration {
+public @interface QualifiedSagaConfiguration {
 
 	@Qualified
 	public static interface QualifiedQualifierMeme {}

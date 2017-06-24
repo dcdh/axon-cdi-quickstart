@@ -12,12 +12,13 @@ import org.axonframework.eventhandling.scheduling.EventScheduler;
 import org.axonframework.eventhandling.scheduling.ScheduleToken;
 
 import it.kamaladafrica.cdi.axonframework.quickstart.Qualified;
+import it.kamaladafrica.cdi.axonframework.quickstart.QualifiedSagaConfiguration;
 import it.kamaladafrica.cdi.axonframework.quickstart.api.MarkToDoItemOverdueCommand;
 import it.kamaladafrica.cdi.axonframework.quickstart.api.ToDoItemCompletedEvent;
 import it.kamaladafrica.cdi.axonframework.quickstart.api.ToDoItemCreatedEvent;
 import it.kamaladafrica.cdi.axonframework.quickstart.api.ToDoItemDeadlineExpiredEvent;
 
-@Qualified
+@QualifiedSagaConfiguration
 public class ToDoQualifiedSaga {
 
 	@Inject
@@ -49,6 +50,5 @@ public class ToDoQualifiedSaga {
 			eventScheduler.cancelSchedule(deadline);
 		}
 	}
-
 
 }
